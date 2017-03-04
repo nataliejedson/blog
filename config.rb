@@ -28,6 +28,7 @@ config[:casper] = {
 # Page options, layouts, aliases and proxies
 ###
 
+set :relative_links, true
 # Per-page layout changes:
 #
 # With no layout
