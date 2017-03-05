@@ -108,8 +108,6 @@ activate :blog do |blog|
 end
 
 
-activate :directory_indexes
-
 # Pretty URLs - https://middlemanapp.com/advanced/pretty_urls/
 activate :directory_indexes
 
