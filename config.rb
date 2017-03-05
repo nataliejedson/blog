@@ -120,6 +120,9 @@ activate :syntax, line_numbers: false
 # Middleman-Sprockets - https://github.com/middleman/middleman-sprockets
 activate :sprockets
 
+# Relative assets — to fix my path problem 
+activate :relative_assets
+
 # Methods defined in the helpers block are available in templates
 # helpers do
 #   def some_helper
