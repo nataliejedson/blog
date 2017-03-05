@@ -9,7 +9,7 @@ config[:casper] = {
     description: nil,
     date_format: '%d %B %Y',
     navigation: true,
-    logo: '/images/img-thing.jpg' # Optional
+    logo: nil # Optional
   },
   author: {
     name: 'Natalie Jane Edson',
