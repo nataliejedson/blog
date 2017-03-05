@@ -16,7 +16,7 @@ config[:casper] = {
     bio: 'Young person trying to commit to projects', # Optional
     location: 'Oregon', # Optional
     website: nil, # Optional
-    gravatar_email: nil, # Optional
+    gravatar_email: 'nataliejaneedson@gmail.com', # Optional
     twitter: 'www.twitter.com/thesockruse' # Optional
   },
   navigation: {
