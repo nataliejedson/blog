@@ -4,20 +4,20 @@
 
 config[:casper] = {
   blog: {
-    url: 'http://www.example.com',
-    name: 'Middleman',
-    description: 'Makes developing websites simple.',
+    url: 'http://nataliejedson.github.io/blog',
+    name: 'NATALIE JANE EDSON',  
+    description: nil,
     date_format: '%d %B %Y',
     navigation: true,
     logo: nil # Optional
   },
   author: {
-    name: 'Middleman',
-    bio: nil, # Optional
-    location: nil, # Optional
+    name: 'Natalie Jane Edson',
+    bio: 'Young person trying to commit to projects', # Optional
+    location: 'Oregon', # Optional
     website: nil, # Optional
     gravatar_email: nil, # Optional
-    twitter: nil # Optional
+    twitter: 'www.twitter.com/thesockruse' # Optional
   },
   navigation: {
     "Home" => "/"
@@ -120,8 +120,6 @@ activate :syntax, line_numbers: false
 # Middleman-Sprockets - https://github.com/middleman/middleman-sprockets
 activate :sprockets
 
-# Relative assets — to fix my path problem 
-activate :relative_assets
 
 # Methods defined in the helpers block are available in templates
 # helpers do
@@ -142,7 +140,7 @@ configure :build do
   # activate :asset_hash
 
   # Use relative URLs
-  # activate :relative_assets
+  activate :relative_assets
 
   # Ignoring Files
   ignore 'javascripts/_*'
