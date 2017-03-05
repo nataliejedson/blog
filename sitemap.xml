@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://nataliejedson.github.io/2013/10/26/welcome-to-ghost/index.html</loc>
+    <lastmod>2017-03-04T15:09:02-08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://nataliejedson.github.io/index.html</loc>
+    <lastmod>2017-03-05T13:19:39-08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://nataliejedson.github.io/index.html</loc>
+    <lastmod>2017-03-05T13:19:39-08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://nataliejedson.github.io/author/natalie-jane-edson/index.html</loc>
+    <lastmod>2017-03-05T13:19:39-08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://nataliejedson.github.io/tag/getting-started/index.html</loc>
+    <lastmod>2017-03-05T13:19:39-08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
