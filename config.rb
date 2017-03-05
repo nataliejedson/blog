@@ -20,7 +20,7 @@ config[:casper] = {
     twitter: 'www.twitter.com/thesockruse' # Optional
   },
   navigation: {
-    "Home" => "/blog"
+    "Home" => "/"
   }
 }
 
