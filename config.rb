@@ -6,7 +6,7 @@ config[:casper] = {
   blog: {
     url: 'http://nataliejedson.github.io/blog',
     name: 'NATALIE JANE EDSON',  
-    description: nil,
+    description: 'trying to be less of a Daria and more of a Lisa Simpson',
     date_format: '%d %B %Y',
     navigation: true,
     logo: nil # Optional
