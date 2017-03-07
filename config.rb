@@ -13,7 +13,7 @@ config[:casper] = {
   },
   author: {
     name: 'Natalie Jane Edson',
-    bio: 'Young person trying to commit to projects', # Optional
+    bio: 'Musician. Poet. Web Developer.', # Optional
     location: 'Oregon', # Optional
     website: nil, # Optional
     gravatar_email: 'nataliejaneedson@gmail.com', # Optional
