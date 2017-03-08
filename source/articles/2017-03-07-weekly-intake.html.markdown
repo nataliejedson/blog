@@ -20,7 +20,7 @@ I picked this up the other day after one of my favorite Twitter accounts, [Astro
 
 I had read his great poem, [Ode to the Maggot](https://www.ibiblio.org/ipa/poems/komunyakaa/ode_to_the_maggot.php) for a seminar in college and thought that it would be good to revisit his work as a sort of counterbalance to the Collected Poems of James Merrill, which I have been wading through for a while. 
 
-I decided to pick up *The Neon Vernacular* because it won the Pulitzer Prize—-that is, I decided sort of arbitrarily. I'm only about 50 pages in, but I haven't been disappointed. He has a unique way of using the line to maintain momentum in a poem, and his approach to writing about childhood and heritage—-both familial and cultural--is admirable.
+I decided to pick up *The Neon Vernacular* because it won the Pulitzer Prize—that is, I decided sort of arbitrarily. I'm only about 50 pages in, but I haven't been disappointed. He has a unique way of using the line to maintain momentum in a poem, and his approach to writing about childhood and heritage—both familial and cultural—is admirable.
 
 
 ##### *Run the Jewels 3*, Run the Jewels
@@ -32,9 +32,11 @@ This album is just great. I gave it a cursory listen when it came out, but last 
 
 ##### *[George Saunders: what writers really do when they write](https://www.theguardian.com/books/2017/mar/04/what-writers-really-do-when-they-write)*
 
+
+
 Sometimes I doubt the efficacy of reading writers on writing. It can be educational, but I often turn to it when I'm avoiding reading or writing poetry itself. It's circularity has a way of making me feel productive when I'm not.
 
-That being said, I really I like reading George Saunders on writing. His work has a freedom that I really aspire to, and it's just generally comforting to read about other people's revision processes. I read a long piece of his on Writing and Education a while ago in an [n+1](https://nplusonemag.com/) anthology called MFA v. NYC, which basically said "Writing is really easy to overthink——you should be wary of that impulse." (You can read that piece *[here.](http://www.newyorker.com/books/page-turner/my-writing-education-a-timeline)*) I'm generally a fan of things and people that remind me to chill out because I'm constantly forgetting to relax. These two articles fall into that category. 
+That being said, I really I like reading George Saunders on writing. His work has a freedom that I really aspire to, and it's just generally comforting to read about other people's revision processes. I read a long piece of his on Writing and Education a while ago in an [n+1](https://nplusonemag.com/) anthology called MFA v. NYC, which basically said "Writing is really easy to overthink—you should be wary of that impulse." (You can read that piece *[here.](http://www.newyorker.com/books/page-turner/my-writing-education-a-timeline)*) I'm generally a fan of things and people that remind me to chill out because I'm constantly forgetting to relax. These two articles fall into that category. 
 
 ##### *Trojan Poetry 21: "Bats" by Henri Cole*
 
