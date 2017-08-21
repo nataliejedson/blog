@@ -3,7 +3,7 @@ title: Weekly Intake, 03.07.17
 date: 2017-03-07
 tags: General, Weekly 
 layout: post
-cover: red.png
+published: False
 ---
 
 Lately, I've been trying to ease away from watching Netflix in the evenings. This means that I've been doing a lot more reading and listening to music, which I really enjoy. Last week was a particularly good week for me in terms of putting stuff into my brain. Here are a few things I've been taking in: 
