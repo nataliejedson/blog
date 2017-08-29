@@ -4,7 +4,6 @@ date: 2017-03-05
 tags: General 
 layout: post
 cover: red.png
-published: False
 ---
 
 ### So here it is! 
