@@ -17,10 +17,11 @@ config[:casper] = {
     location: 'Oregon', # Optional
     website: nil, # Optional
     gravatar_email: 'nataliejaneedson@gmail.com', # Optional
-    twitter: 'thesockruse' # Optional
+    twitter: '' # Optional
   },
   navigation: {
-    "Home" => "/"
+    "Home" => "/",
+    "My Work" => "/work"
   }
 }
 
