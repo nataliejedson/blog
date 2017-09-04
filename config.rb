@@ -18,7 +18,7 @@ config[:casper] = {
     website: nil, # Optional
     gravatar_email: 'nataliejaneedson@gmail.com', # Optional
     twitter: '' # Optional
-  },
+  }, 
   navigation: {
     "Home" => "/",
     "About Me" => "/aboutme",
