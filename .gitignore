@@ -9,6 +9,7 @@
 
 # Ignore the build directory
 /build
+/articles 
 
 # Ignore cache
 /.sass-cache
