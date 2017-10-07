@@ -1,8 +1,0 @@
----
-title: DEFAULT
-date: 1999-01-01	
-tags: Default
-layout: post
-cover: red.png
-published: False
----

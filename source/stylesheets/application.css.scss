@@ -8,21 +8,36 @@ pre.highlight {
     white-space: pre;
   }
 }
+.main-header.no-cover {
+	background-color: white;
+}
 
 .vertical {
-	background-color: #cc3333;
+	background-color: white;
 }
 
-.read-next {
-	background: #A22B19;
+.read-next { 
+	background-color: #cc3333; 
 }
 
-#resume { 
-	display: block; 
-	margin: auto;
-	width: 60%;
+.page-title {
+    border-style: double; 
+    border-color: #cc3333;
+    border-width: 15px;
+    padding: 50px 0 50px 0;
+    margin: 50px;
 }
 
-.main-header.no-cover {
-	background-color: #cc3333;
+.menu-button {
+    padding: 0 5px;
+    border-radius: 0;
+    border-width: 0;
+    color: #cc3333;
+    background: transparent;
+    font-family: "Arial", sans-serif
+}
+.menu-button:hover {
+
+    border-color: transparent;
+    background: none;
 }

@@ -13,6 +13,6 @@ When I started in tech about eight months ago, it was as an intern at the resear
 
 What the DictReader class allows you to do is read lines from a csv (I typically use [Sequel Pro](https://www.sequelpro.com/) to export SQL views as csv files) as dictionaries, which allows you to easily access values by their keys. You can then manipulate the values and then write them to a new csv, provided that you know a little bit about [Python File I/O](https://www.tutorialspoint.com/python/python_files_io.htm). It's a pretty intuitive process, and has made my work easier countless times. 
 
-I made a little [repo](https://github.com/nataliejedson/presidential-race) with some demo code exhibiting the power of this library. It takes some data about a hypothetical race between the first ten Presidents of the United States and makes it more readble. 
+I made a little [repo](https://github.com/nataliejedson/presidential-race) with some demo code exhibiting the power of this library. It takes some data about a hypothetical race between the first ten Presidents of the United States and makes it more readable. 
 
 Hope this helps you as much as it has helped me!
