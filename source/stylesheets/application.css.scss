@@ -9,7 +9,12 @@ pre.highlight {
   }
 }
 
-//
+body.nav-opened .icon-menu { 
+    opacity: 0; 
+}
+
+// home page
+
 
 .main-header.no-cover {
 	background-color: white;
