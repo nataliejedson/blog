@@ -8,6 +8,9 @@ pre.highlight {
     white-space: pre;
   }
 }
+
+//
+
 .main-header.no-cover {
 	background-color: white;
 }
@@ -42,8 +45,37 @@ pre.highlight {
     background: none;
 }
 
+// About me 
+
 .resume {
 	display: inline-block; 
 	margin: 10%; 
 	width: 75%; 
 }
+
+//post layout redesign 
+
+.post-title.single-post-page {
+    margin-top: 2em;
+    margin-bottom: 1em; 
+//    text-decoration: underline;
+//    text-decoration-color: #cc3333; 
+    border: 15px #cc3333 double; 
+    padding: 1em; 
+}
+
+.main-nav.overlay .menu-button {
+    padding: 0 5px;
+    border-radius: 0;
+    border-width: 0;
+    color: black;
+    background: transparent;
+    font-family: "Arial", sans-serif
+}
+.main-nav.overlay .menu-button:hover {
+
+    border-color: transparent;
+    background: none;
+}
+
+

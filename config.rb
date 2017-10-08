@@ -4,7 +4,7 @@
 
 config[:casper] = {
   blog: {
-    url: 'http://nataliejedson.github.io/blog',
+    url: 'https://nataliejaneedson.com',
     name: 'NATALIE JANE EDSON',  
     description: '',
     date_format: '%d %B %Y',
