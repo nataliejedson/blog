@@ -22,7 +22,8 @@ config[:casper] = {
   navigation: {
     "Home" => "/",
     "About Me" => "/aboutme",
-    "My Work" => "/work"
+    "My Work" => "/work", 
+    "Erasure" => "/erasure"
   }
 }
 

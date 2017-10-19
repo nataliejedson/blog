@@ -83,4 +83,17 @@ body.nav-opened .icon-menu {
     background: none;
 }
 
+#erasure {
+    width: 50%; 
+    display: inline-block; 
+    margin: auto; 
+}
 
+.app-button {
+    padding: 0 5px;
+    border-radius: 0;
+    border-width: 0;
+    color: black;
+    background: transparent;
+    font-family: "Arial", sans-serif
+}
