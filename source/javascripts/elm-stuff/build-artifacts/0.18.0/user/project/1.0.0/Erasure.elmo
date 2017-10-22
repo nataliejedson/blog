@@ -1,0 +1,718 @@
+var _user$project$Erasure$wordColor = function (word) {
+	var _p0 = word.erased;
+	if (_p0 === true) {
+		return 'whitesmoke';
+	} else {
+		return 'black';
+	}
+};
+var _user$project$Erasure$appButtonStyle = _elm_lang$core$List$singleton(
+	_elm_lang$html$Html_Attributes$style(
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'padding', _1: '0 5px'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'border-radius', _1: '0'},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'border-width', _1: '0'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'color', _1: 'black'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'background', _1: 'transparent'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'font-family', _1: '\'Arial\', sans-serif'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'padding-left', _1: '6em'},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'padding-right', _1: '6em'},
+										_1: {
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'margin-bottom', _1: '30px'},
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
+												_1: {
+													ctor: '::',
+													_0: {ctor: '_Tuple2', _0: 'font-size', _1: '.75em'},
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}));
+var _user$project$Erasure$myStyles = _elm_lang$core$List$singleton(
+	_elm_lang$html$Html_Attributes$style(
+		{
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'font-family', _1: 'Georgia'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'font-size', _1: '20px'},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'margin', _1: 'auto'},
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		}));
+var _user$project$Erasure$isNotErased = function (word) {
+	return _elm_lang$core$Native_Utils.eq(word.erased, false);
+};
+var _user$project$Erasure$makeStringFromText = function (words) {
+	var remainingClickableWords = A2(_elm_lang$core$List$filter, _user$project$Erasure$isNotErased, words);
+	var remainingText = A2(
+		_elm_lang$core$List$map,
+		function (_) {
+			return _.text;
+		},
+		remainingClickableWords);
+	return A2(_elm_lang$core$String$join, ' ', remainingText);
+};
+var _user$project$Erasure$isErased = function (word) {
+	return _elm_lang$core$Native_Utils.eq(word.erased, true);
+};
+var _user$project$Erasure$totalNumberOfWords = function (model) {
+	return _elm_lang$core$List$length(model.clickableText);
+};
+var _user$project$Erasure$randomIndexAndSeed = function (model) {
+	var seed = model.seed;
+	var total = _user$project$Erasure$totalNumberOfWords(model);
+	return A2(
+		_elm_lang$core$Random$step,
+		A2(
+			_elm_lang$core$Random$int,
+			0,
+			_user$project$Erasure$totalNumberOfWords(model) - 1),
+		seed);
+};
+var _user$project$Erasure$randomIndex = function (model) {
+	return _elm_lang$core$Tuple$first(
+		_user$project$Erasure$randomIndexAndSeed(model));
+};
+var _user$project$Erasure$newSeed = function (model) {
+	return _elm_lang$core$Tuple$second(
+		_user$project$Erasure$randomIndexAndSeed(model));
+};
+var _user$project$Erasure$currentErasedWords = function (model) {
+	return A2(
+		_elm_lang$core$List$filter,
+		function (_) {
+			return _.erased;
+		},
+		model.clickableText);
+};
+var _user$project$Erasure$currentAmountErased = function (model) {
+	return _elm_lang$core$List$length(
+		_user$project$Erasure$currentErasedWords(model));
+};
+var _user$project$Erasure$desiredAmountErased = function (model) {
+	return ((_user$project$Erasure$totalNumberOfWords(model) * model.percentRandom) / 100) | 0;
+};
+var _user$project$Erasure$hasPosition = F2(
+	function ($int, word) {
+		return _elm_lang$core$Native_Utils.eq(word.position, $int) ? true : false;
+	});
+var _user$project$Erasure$initModel = {
+	clickableText: {ctor: '[]'},
+	textEntered: false,
+	inputText: '',
+	percentRandom: 90,
+	seed: _elm_lang$core$Random$initialSeed(42)
+};
+var _user$project$Erasure$makeFile = _elm_lang$core$Native_Platform.outgoingPort(
+	'makeFile',
+	function (v) {
+		return v;
+	});
+var _user$project$Erasure$sendStringOutToFile = function (words) {
+	return _user$project$Erasure$makeFile(
+		_user$project$Erasure$makeStringFromText(words));
+};
+var _user$project$Erasure$ClickableWord = F3(
+	function (a, b, c) {
+		return {text: a, erased: b, position: c};
+	});
+var _user$project$Erasure$createWord = F2(
+	function (string, $int) {
+		return A3(_user$project$Erasure$ClickableWord, string, false, $int);
+	});
+var _user$project$Erasure$textToClickableWords = function (inputText) {
+	var rawWordsArray = A2(_elm_lang$core$String$split, ' ', inputText);
+	return A3(
+		_elm_lang$core$List$map2,
+		_user$project$Erasure$createWord,
+		rawWordsArray,
+		A2(
+			_elm_lang$core$List$range,
+			1,
+			_elm_lang$core$List$length(rawWordsArray)));
+};
+var _user$project$Erasure$eraseOrBringBack = function (word) {
+	var _p1 = word.erased;
+	if (_p1 === true) {
+		return A3(_user$project$Erasure$ClickableWord, word.text, false, word.position);
+	} else {
+		return A3(_user$project$Erasure$ClickableWord, word.text, true, word.position);
+	}
+};
+var _user$project$Erasure$eraseAtIndex = F2(
+	function (index, words) {
+		var wordAtIndex = A2(_elm_community$list_extra$List_Extra$getAt, index, words);
+		var _p2 = wordAtIndex;
+		if (_p2.ctor === 'Just') {
+			var _p4 = _p2._0;
+			var _p3 = _p4.erased;
+			if (_p3 === true) {
+				return _elm_lang$core$Maybe$Just(words);
+			} else {
+				return A3(
+					_elm_community$list_extra$List_Extra$setAt,
+					index,
+					_user$project$Erasure$eraseOrBringBack(_p4),
+					words);
+			}
+		} else {
+			return _elm_lang$core$Native_Utils.crashCase(
+				'Erasure',
+				{
+					start: {line: 235, column: 9},
+					end: {line: 243, column: 53}
+				},
+				_p2)('No word at that index.');
+		}
+	});
+var _user$project$Erasure$eraseAWord = function (model) {
+	var erasedWord = A2(
+		_user$project$Erasure$eraseAtIndex,
+		_user$project$Erasure$randomIndex(model),
+		model.clickableText);
+	var _p6 = erasedWord;
+	if (_p6.ctor === 'Just') {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				clickableText: _p6._0,
+				seed: _user$project$Erasure$newSeed(model)
+			});
+	} else {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				seed: _user$project$Erasure$newSeed(model)
+			});
+	}
+};
+var _user$project$Erasure$bringBackAtIndex = F2(
+	function (index, words) {
+		var wordAtIndex = A2(_elm_community$list_extra$List_Extra$getAt, index, words);
+		var _p7 = wordAtIndex;
+		if (_p7.ctor === 'Just') {
+			var _p9 = _p7._0;
+			var _p8 = _p9.erased;
+			if (_p8 === true) {
+				return A3(
+					_elm_community$list_extra$List_Extra$setAt,
+					index,
+					_user$project$Erasure$eraseOrBringBack(_p9),
+					words);
+			} else {
+				return _elm_lang$core$Maybe$Just(words);
+			}
+		} else {
+			return _elm_lang$core$Native_Utils.crashCase(
+				'Erasure',
+				{
+					start: {line: 251, column: 9},
+					end: {line: 259, column: 53}
+				},
+				_p7)('No word at that index.');
+		}
+	});
+var _user$project$Erasure$bringBackAWord = function (model) {
+	var broughtBackWord = A2(
+		_user$project$Erasure$bringBackAtIndex,
+		_user$project$Erasure$randomIndex(model),
+		model.clickableText);
+	var _p11 = broughtBackWord;
+	if (_p11.ctor === 'Just') {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				clickableText: _p11._0,
+				seed: _user$project$Erasure$newSeed(model)
+			});
+	} else {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				seed: _user$project$Erasure$newSeed(model)
+			});
+	}
+};
+var _user$project$Erasure$randomErasure = function (model) {
+	randomErasure:
+	while (true) {
+		var newModel = model;
+		var current = _user$project$Erasure$currentAmountErased(model);
+		var desired = _user$project$Erasure$desiredAmountErased(model);
+		var percent = model.percentRandom;
+		var words = model.clickableText;
+		if (_elm_lang$core$Native_Utils.cmp(current, desired) < 0) {
+			var _v8 = _user$project$Erasure$eraseAWord(model);
+			model = _v8;
+			continue randomErasure;
+		} else {
+			if (_elm_lang$core$Native_Utils.eq(current, desired)) {
+				return model;
+			} else {
+				var _v9 = _user$project$Erasure$bringBackAWord(model);
+				model = _v9;
+				continue randomErasure;
+			}
+		}
+	}
+};
+var _user$project$Erasure$update = F2(
+	function (msg, model) {
+		var _p12 = msg;
+		switch (_p12.ctor) {
+			case 'ToggleWord':
+				var newText = A3(_elm_community$list_extra$List_Extra$updateAt, _p12._0.position - 1, _user$project$Erasure$eraseOrBringBack, model.clickableText);
+				var _p13 = newText;
+				if (_p13.ctor === 'Just') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{clickableText: _p13._0}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return _elm_lang$core$Native_Utils.crashCase(
+						'Erasure',
+						{
+							start: {line: 104, column: 17},
+							end: {line: 108, column: 89}
+						},
+						_p13)('You\'re trying to toggle a word that doesn\'t exist.');
+				}
+			case 'MakeTextClickable':
+				var clickableText = _user$project$Erasure$textToClickableWords(model.inputText);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{clickableText: clickableText, textEntered: true}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdateInputText':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{inputText: _p12._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'GoBackToTextEntry':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{textEntered: false}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Randomize':
+				return {
+					ctor: '_Tuple2',
+					_0: _user$project$Erasure$randomErasure(model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdatePercentRandom':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							percentRandom: A2(
+								_elm_lang$core$Result$withDefault,
+								0,
+								_elm_lang$core$String$toInt(_p12._0))
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'GetSeed':
+				if (_p12._0.ctor === 'Just') {
+					var timeSeed = _elm_lang$core$Random$initialSeed(
+						_elm_lang$core$Basics$round(
+							_elm_lang$core$Time$inSeconds(_p12._0._0)));
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{seed: timeSeed}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						model,
+						{ctor: '[]'});
+				}
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{
+						ctor: '::',
+						_0: _user$project$Erasure$sendStringOutToFile(model.clickableText),
+						_1: {ctor: '[]'}
+					});
+		}
+	});
+var _user$project$Erasure$Model = F5(
+	function (a, b, c, d, e) {
+		return {clickableText: a, textEntered: b, inputText: c, percentRandom: d, seed: e};
+	});
+var _user$project$Erasure$FileDownload = {ctor: 'FileDownload'};
+var _user$project$Erasure$GetSeed = function (a) {
+	return {ctor: 'GetSeed', _0: a};
+};
+var _user$project$Erasure$now = A2(
+	_elm_lang$core$Task$perform,
+	function (_p15) {
+		return _user$project$Erasure$GetSeed(
+			_elm_lang$core$Maybe$Just(_p15));
+	},
+	_elm_lang$core$Time$now);
+var _user$project$Erasure$init = {ctor: '_Tuple2', _0: _user$project$Erasure$initModel, _1: _user$project$Erasure$now};
+var _user$project$Erasure$UpdatePercentRandom = function (a) {
+	return {ctor: 'UpdatePercentRandom', _0: a};
+};
+var _user$project$Erasure$percentRandomInput = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$input,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$type_('text'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$size(3),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onInput(_user$project$Erasure$UpdatePercentRandom),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$style(
+								{
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline'},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'float', _1: 'left'},
+										_1: {
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'vertical-align', _1: 'middle'},
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'width', _1: '50px'},
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			},
+			{ctor: '[]'}),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Erasure$Randomize = {ctor: 'Randomize'};
+var _user$project$Erasure$GoBackToTextEntry = {ctor: 'GoBackToTextEntry'};
+var _user$project$Erasure$UpdateInputText = function (a) {
+	return {ctor: 'UpdateInputText', _0: a};
+};
+var _user$project$Erasure$MakeTextClickable = function (a) {
+	return {ctor: 'MakeTextClickable', _0: a};
+};
+var _user$project$Erasure$enterYourTextScreen = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_user$project$Erasure$myStyles,
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$br,
+				{ctor: '[]'},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$br,
+					{ctor: '[]'},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$textarea,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('Enter your text here'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Erasure$UpdateInputText),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$style(
+										{
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'width', _1: '800px'},
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'height', _1: '200px'},
+												_1: {ctor: '[]'}
+											}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$br,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Erasure$MakeTextClickable(model.inputText)),
+										_1: _user$project$Erasure$appButtonStyle
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Let\'s erase stuff!'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Erasure$ToggleWord = function (a) {
+	return {ctor: 'ToggleWord', _0: a};
+};
+var _user$project$Erasure$displayClickableWord = function (word) {
+	return A2(
+		_elm_lang$html$Html$span,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Events$onClick(
+				_user$project$Erasure$ToggleWord(word)),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					{
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'color',
+							_1: _user$project$Erasure$wordColor(word)
+						},
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				A2(_elm_lang$core$Basics_ops['++'], word.text, ' ')),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Erasure$view = function (model) {
+	var _p16 = model.textEntered;
+	if (_p16 === false) {
+		return _user$project$Erasure$enterYourTextScreen(model);
+	} else {
+		return A2(
+			_elm_lang$html$Html$div,
+			_user$project$Erasure$myStyles,
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'width', _1: '75%'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'margin', _1: 'auto'},
+										_1: {
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'margin-top', _1: '2em'},
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'margin-bottom', _1: '1em'},
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}),
+						_1: {ctor: '[]'}
+					},
+					A2(_elm_lang$core$List$map, _user$project$Erasure$displayClickableWord, model.clickableText)),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$br,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$GoBackToTextEntry),
+								_1: _user$project$Erasure$appButtonStyle
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Enter different text'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$br,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$style(
+											{
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'font-family', _1: '\'Arial\', sans-serif'},
+												_1: {
+													ctor: '::',
+													_0: {ctor: '_Tuple2', _0: 'font-size', _1: '.75em'},
+													_1: {
+														ctor: '::',
+														_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline'},
+														_1: {
+															ctor: '::',
+															_0: {ctor: '_Tuple2', _0: 'width', _1: '150px'},
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Erase '),
+										_1: {
+											ctor: '::',
+											_0: _user$project$Erasure$percentRandomInput,
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('% of these words'),
+												_1: {ctor: '[]'}
+											}
+										}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$Randomize),
+											_1: _user$project$Erasure$appButtonStyle
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Go!'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$FileDownload),
+												_1: _user$project$Erasure$appButtonStyle
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Download File!'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			});
+	}
+};
+var _user$project$Erasure$main = _elm_lang$html$Html$program(
+	{
+		view: _user$project$Erasure$view,
+		init: _user$project$Erasure$init,
+		update: _user$project$Erasure$update,
+		subscriptions: _elm_lang$core$Basics$always(_elm_lang$core$Platform_Sub$none)
+	})();
