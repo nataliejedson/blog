@@ -305,40 +305,47 @@ view model =
         False -> 
             enterYourTextScreen model
         True -> 
-            div myStyles
-                [ 
-                    div 
-                        [ 
-                            style 
-                                [ ("width", "75%")
-                                , ("display", "inline-block")
-                                , ("margin", "auto") 
-                                , ("margin-top", "2em")
-                                , ("margin-bottom", "1em")
-                                ] 
-                        ] 
-                        (List.map displayClickableWord model.clickableText) 
-                    , Html.br [] []
-                    , Html.button (onClick GoBackToTextEntry :: appButtonStyle) [Html.text "Enter different text"]
-                    , Html.br [][]
-                    , Html.div [ 
-                        style 
-                            [ ("font-family", "'Arial', sans-serif")
-                            , ("font-size", ".75em")
-                            , ("display", "inline")
-                            , ("width", "150px")
-                            ]
-                        ] 
-                        [ Html.text "Erase "
-                        , percentRandomInput
-                        , Html.text "% of these words"
-                        ]
-                    , Html.button ( onClick (Randomize) :: appButtonStyle) [Html.text "Go!"]
-                    , Html.button ( onClick (FileDownload) :: appButtonStyle) [Html.text "Download File!"]
-                    
-                    
-
+            div []
+                [ allTextDisplayed model
+                , buttonsAndOptions    
+                , Html.text (toString<| List.length <| (List.filter isNotErased model.clickableText))
                 ] 
+
+buttonsAndOptions: Html Msg 
+buttonsAndOptions = 
+    Html.div [ 
+        style 
+            [ ("font-family", "'Arial', sans-serif")
+            , ("font-size", ".75em")
+            , ("display", "block")
+            , ("width", "27%")
+            , ("float", "right")
+            , ("margin-right", "5%") 
+            , ("margin-left", "5%")
+            , ("border-color", "#999999")
+            , ("border-width", "10px")
+            ]
+        ]
+        [ Html.button (onClick GoBackToTextEntry :: appButtonStyle) [Html.text "Enter different text"]
+        , Html.text "Erase "
+        , percentRandomInput
+        , Html.text "% of these words"
+        , Html.button ( onClick (Randomize) :: appButtonStyle) [Html.text "Go!"]
+        , Html.button ( onClick (FileDownload) :: appButtonStyle) [Html.text "Download File!"]
+        ]
+
+allTextDisplayed: Model -> Html Msg
+allTextDisplayed model = 
+    div 
+    [ 
+        style 
+            [ ("width", "55%")
+            , ("display", "inline-block")
+            , ("margin-left", "8%") 
+            , ("float", "left")
+            ] 
+    ] 
+    (List.map displayClickableWord model.clickableText) 
 
 appButtonStyle: List (Html.Attribute Msg)
 appButtonStyle = 
@@ -378,7 +385,7 @@ percentRandomInput =
       [ type_ "text"
       , size 3
       , onInput UpdatePercentRandom
-      , style [("display", "inline"), ("float", "left"), ("vertical-align", "middle"), ("width", "50px")]
+      , style [("display", "inline"), ("vertical-align", "middle"), ("width", "50px")]
       ] []
     ]
 

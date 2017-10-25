@@ -10390,7 +10390,7 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _user$project$Erasure$wordColor = function (word) {
+var _user$project$Art$wordColor = function (word) {
 	var _p0 = word.erased;
 	if (_p0 === true) {
 		return 'whitesmoke';
@@ -10398,54 +10398,7 @@ var _user$project$Erasure$wordColor = function (word) {
 		return 'black';
 	}
 };
-var _user$project$Erasure$appButtonStyle = _elm_lang$core$List$singleton(
-	_elm_lang$html$Html_Attributes$style(
-		{
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'padding', _1: '0 5px'},
-			_1: {
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'border-radius', _1: '0'},
-				_1: {
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'border-width', _1: '0'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'color', _1: 'black'},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'background', _1: 'transparent'},
-							_1: {
-								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'font-family', _1: '\'Arial\', sans-serif'},
-								_1: {
-									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'padding-left', _1: '6em'},
-									_1: {
-										ctor: '::',
-										_0: {ctor: '_Tuple2', _0: 'padding-right', _1: '6em'},
-										_1: {
-											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'margin-bottom', _1: '30px'},
-											_1: {
-												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
-												_1: {
-													ctor: '::',
-													_0: {ctor: '_Tuple2', _0: 'font-size', _1: '.75em'},
-													_1: {ctor: '[]'}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}));
-var _user$project$Erasure$myStyles = _elm_lang$core$List$singleton(
+var _user$project$Art$myStyles = _elm_lang$core$List$singleton(
 	_elm_lang$html$Html_Attributes$style(
 		{
 			ctor: '::',
@@ -10464,577 +10417,218 @@ var _user$project$Erasure$myStyles = _elm_lang$core$List$singleton(
 				}
 			}
 		}));
-var _user$project$Erasure$isNotErased = function (word) {
+var _user$project$Art$isNotErased = function (word) {
 	return _elm_lang$core$Native_Utils.eq(word.erased, false);
 };
-var _user$project$Erasure$makeStringFromText = function (words) {
-	var remainingClickableWords = A2(_elm_lang$core$List$filter, _user$project$Erasure$isNotErased, words);
-	var remainingText = A2(
-		_elm_lang$core$List$map,
-		function (_) {
-			return _.text;
-		},
-		remainingClickableWords);
-	return A2(_elm_lang$core$String$join, ' ', remainingText);
-};
-var _user$project$Erasure$isErased = function (word) {
+var _user$project$Art$isErased = function (word) {
 	return _elm_lang$core$Native_Utils.eq(word.erased, true);
 };
-var _user$project$Erasure$totalNumberOfWords = function (model) {
-	return _elm_lang$core$List$length(model.clickableText);
+var _user$project$Art$totalNumberOfWords = function (model) {
+	return _elm_lang$core$List$length(model.eraseableText);
 };
-var _user$project$Erasure$randomIndexAndSeed = function (model) {
+var _user$project$Art$randomIndexAndSeed = function (model) {
 	var seed = model.seed;
-	var total = _user$project$Erasure$totalNumberOfWords(model);
+	var total = _user$project$Art$totalNumberOfWords(model);
 	return A2(
 		_elm_lang$core$Random$step,
 		A2(
 			_elm_lang$core$Random$int,
 			0,
-			_user$project$Erasure$totalNumberOfWords(model) - 1),
+			_user$project$Art$totalNumberOfWords(model) - 1),
 		seed);
 };
-var _user$project$Erasure$randomIndex = function (model) {
+var _user$project$Art$randomIndex = function (model) {
 	return _elm_lang$core$Tuple$first(
-		_user$project$Erasure$randomIndexAndSeed(model));
+		_user$project$Art$randomIndexAndSeed(model));
 };
-var _user$project$Erasure$newSeed = function (model) {
+var _user$project$Art$newSeed = function (model) {
 	return _elm_lang$core$Tuple$second(
-		_user$project$Erasure$randomIndexAndSeed(model));
+		_user$project$Art$randomIndexAndSeed(model));
 };
-var _user$project$Erasure$currentErasedWords = function (model) {
+var _user$project$Art$currentErasedWords = function (model) {
 	return A2(
 		_elm_lang$core$List$filter,
 		function (_) {
 			return _.erased;
 		},
-		model.clickableText);
+		model.eraseableText);
 };
-var _user$project$Erasure$currentAmountErased = function (model) {
+var _user$project$Art$currentAmountErased = function (model) {
 	return _elm_lang$core$List$length(
-		_user$project$Erasure$currentErasedWords(model));
+		_user$project$Art$currentErasedWords(model));
 };
-var _user$project$Erasure$desiredAmountErased = function (model) {
-	return ((_user$project$Erasure$totalNumberOfWords(model) * model.percentRandom) / 100) | 0;
-};
-var _user$project$Erasure$hasPosition = F2(
+var _user$project$Art$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		if (_p1.ctor === 'GetSeed') {
+			if (_p1._0.ctor === 'Just') {
+				var timeSeed = _elm_lang$core$Random$initialSeed(
+					_elm_lang$core$Basics$round(
+						_elm_lang$core$Time$inSeconds(_p1._0._0)));
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{seed: timeSeed}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			} else {
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{ctor: '[]'});
+			}
+		} else {
+			return A2(
+				_elm_lang$core$Platform_Cmd_ops['!'],
+				model,
+				{ctor: '[]'});
+		}
+	});
+var _user$project$Art$hasPosition = F2(
 	function ($int, word) {
 		return _elm_lang$core$Native_Utils.eq(word.position, $int) ? true : false;
 	});
-var _user$project$Erasure$initModel = {
-	clickableText: {ctor: '[]'},
-	textEntered: false,
-	inputText: '',
-	percentRandom: 90,
-	seed: _elm_lang$core$Random$initialSeed(42)
-};
-var _user$project$Erasure$makeFile = _elm_lang$core$Native_Platform.outgoingPort(
-	'makeFile',
-	function (v) {
-		return v;
+var _user$project$Art$theText = '\n    In dreams (Coleridge writes), images take the shape of the effects we believe they cause. We are not terrified because some sphinx \n    is threatening us but rather dream of a sphinx in order to explain the terror we are feeling. If this is the case, how can a simple \n    account of such imaginings communicate the dread and the thrills, the adventure, anxieties, and joys conjured by last night\'s dream? \n    I am going to attempt to do this all the same. Perhaps the fact that the entire dream consisted of a single scene will erase or \n    ease this fundamental difficulty. \n \n \n    It took place in the Humanities Building, at dusk. As often happens in dreams, everything was somehow different: everything had been \n    affected by a slight enlargement. We were electing people to committees. I was chatting with Pedro Henriquez Urena, who in reality \n    has been dead for many years. Suddenly we were assaulted by the racket of a street band or a demonstration. The cries of people and \n    animals reached us from the Lower City. A voice cried: \"Here they come!\" then: \"It\'s the Gods!\" Four or five individuals emerged from \n    the mob and took their places on the stage of the lecture hall. We all cheered, weeping: it was the Gods, coming back after centuries \n    of exile. The stage made them taller: they threw their heads back and thrust their chests forward in haughty acceptance of our homage. \n \n \n    One of them was holding a bough of the kind no doubt required by the simplistic botany of dreams; another made a broad gesture \n    with his hand, which was a claw; one of Janus\'s faces looked apprehensively at the curving beak of Thoth. Stirred perhaps by our \n    cheers, another one–I\'m no longer sure which one–broke out in triumphant but incredibly harsh clacking, complete with gargles and \n    whistles. From that point on, things began to change. \n \n \n    It was all due to our perhaps precipitous suspicion that the Gods did not know how to talk. Hundreds of years of living like animals \n    on the run had atrophied their human dimension. The moon of Islam and the Roman Cross had been merciless with these fugitives. The \n    decadence of the Olympic bloodline was evident in their beetling brows, yellowed teeth, patchy half-breed or Chinese whiskers, and bestial \n    protruding lips. Their clothing spoke not of genteel poverty but of the flashy bad taste of the Lower City\'s back rooms and bordellos.  \n \n \n    A carnation bled from one buttonhole; we detected the outline of a dagger under a tight-fitting jacket. All at once we sensed that \n    they were playing their last card, that they had grown sly, stultified and cruel like aging beasts of prey, and that they would destroy \n    us if we allowed ourselves to be swayed by fear or pity.  \n \n \n    We drew our heavy pistols (in the dream, they just appeared) and cheerfully put the Gods to death.\n    ';
+var _user$project$Art$Model = F3(
+	function (a, b, c) {
+		return {eraseableText: a, seed: b, status: c};
 	});
-var _user$project$Erasure$sendStringOutToFile = function (words) {
-	return _user$project$Erasure$makeFile(
-		_user$project$Erasure$makeStringFromText(words));
-};
-var _user$project$Erasure$ClickableWord = F3(
+var _user$project$Art$EraseableWord = F3(
 	function (a, b, c) {
 		return {text: a, erased: b, position: c};
 	});
-var _user$project$Erasure$createWord = F2(
+var _user$project$Art$createWord = F2(
 	function (string, $int) {
-		return A3(_user$project$Erasure$ClickableWord, string, false, $int);
+		return A3(_user$project$Art$EraseableWord, string, false, $int);
 	});
-var _user$project$Erasure$textToClickableWords = function (inputText) {
+var _user$project$Art$textToEraseableWords = function (inputText) {
 	var rawWordsArray = A2(_elm_lang$core$String$split, ' ', inputText);
 	return A3(
 		_elm_lang$core$List$map2,
-		_user$project$Erasure$createWord,
+		_user$project$Art$createWord,
 		rawWordsArray,
 		A2(
 			_elm_lang$core$List$range,
 			1,
 			_elm_lang$core$List$length(rawWordsArray)));
 };
-var _user$project$Erasure$eraseOrBringBack = function (word) {
-	var _p1 = word.erased;
-	if (_p1 === true) {
-		return A3(_user$project$Erasure$ClickableWord, word.text, false, word.position);
+var _user$project$Art$eraseOrBringBack = function (word) {
+	var _p2 = word.erased;
+	if (_p2 === true) {
+		return A3(_user$project$Art$EraseableWord, word.text, false, word.position);
 	} else {
-		return A3(_user$project$Erasure$ClickableWord, word.text, true, word.position);
+		return A3(_user$project$Art$EraseableWord, word.text, true, word.position);
 	}
 };
-var _user$project$Erasure$eraseAtIndex = F2(
+var _user$project$Art$eraseAtIndex = F2(
 	function (index, words) {
 		var wordAtIndex = A2(_elm_community$list_extra$List_Extra$getAt, index, words);
-		var _p2 = wordAtIndex;
-		if (_p2.ctor === 'Just') {
-			var _p4 = _p2._0;
-			var _p3 = _p4.erased;
-			if (_p3 === true) {
+		var _p3 = wordAtIndex;
+		if (_p3.ctor === 'Just') {
+			var _p5 = _p3._0;
+			var _p4 = _p5.erased;
+			if (_p4 === true) {
 				return _elm_lang$core$Maybe$Just(words);
 			} else {
 				return A3(
 					_elm_community$list_extra$List_Extra$setAt,
 					index,
-					_user$project$Erasure$eraseOrBringBack(_p4),
+					_user$project$Art$eraseOrBringBack(_p5),
 					words);
 			}
 		} else {
 			return _elm_lang$core$Native_Utils.crashCase(
-				'Erasure',
+				'Art',
 				{
-					start: {line: 235, column: 9},
-					end: {line: 243, column: 53}
+					start: {line: 188, column: 9},
+					end: {line: 196, column: 53}
 				},
-				_p2)('No word at that index.');
+				_p3)('No word at that index.');
 		}
 	});
-var _user$project$Erasure$eraseAWord = function (model) {
+var _user$project$Art$eraseAWord = function (model) {
 	var erasedWord = A2(
-		_user$project$Erasure$eraseAtIndex,
-		_user$project$Erasure$randomIndex(model),
-		model.clickableText);
-	var _p6 = erasedWord;
-	if (_p6.ctor === 'Just') {
+		_user$project$Art$eraseAtIndex,
+		_user$project$Art$randomIndex(model),
+		model.eraseableText);
+	var _p7 = erasedWord;
+	if (_p7.ctor === 'Just') {
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				clickableText: _p6._0,
-				seed: _user$project$Erasure$newSeed(model)
+				eraseableText: _p7._0,
+				seed: _user$project$Art$newSeed(model)
 			});
 	} else {
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				seed: _user$project$Erasure$newSeed(model)
+				seed: _user$project$Art$newSeed(model)
 			});
 	}
 };
-var _user$project$Erasure$bringBackAtIndex = F2(
+var _user$project$Art$bringBackAtIndex = F2(
 	function (index, words) {
 		var wordAtIndex = A2(_elm_community$list_extra$List_Extra$getAt, index, words);
-		var _p7 = wordAtIndex;
-		if (_p7.ctor === 'Just') {
-			var _p9 = _p7._0;
-			var _p8 = _p9.erased;
-			if (_p8 === true) {
+		var _p8 = wordAtIndex;
+		if (_p8.ctor === 'Just') {
+			var _p10 = _p8._0;
+			var _p9 = _p10.erased;
+			if (_p9 === true) {
 				return A3(
 					_elm_community$list_extra$List_Extra$setAt,
 					index,
-					_user$project$Erasure$eraseOrBringBack(_p9),
+					_user$project$Art$eraseOrBringBack(_p10),
 					words);
 			} else {
 				return _elm_lang$core$Maybe$Just(words);
 			}
 		} else {
 			return _elm_lang$core$Native_Utils.crashCase(
-				'Erasure',
+				'Art',
 				{
-					start: {line: 251, column: 9},
-					end: {line: 259, column: 53}
+					start: {line: 204, column: 9},
+					end: {line: 212, column: 53}
 				},
-				_p7)('No word at that index.');
+				_p8)('No word at that index.');
 		}
 	});
-var _user$project$Erasure$bringBackAWord = function (model) {
+var _user$project$Art$bringBackAWord = function (model) {
 	var broughtBackWord = A2(
-		_user$project$Erasure$bringBackAtIndex,
-		_user$project$Erasure$randomIndex(model),
-		model.clickableText);
-	var _p11 = broughtBackWord;
-	if (_p11.ctor === 'Just') {
+		_user$project$Art$bringBackAtIndex,
+		_user$project$Art$randomIndex(model),
+		model.eraseableText);
+	var _p12 = broughtBackWord;
+	if (_p12.ctor === 'Just') {
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				clickableText: _p11._0,
-				seed: _user$project$Erasure$newSeed(model)
+				eraseableText: _p12._0,
+				seed: _user$project$Art$newSeed(model)
 			});
 	} else {
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				seed: _user$project$Erasure$newSeed(model)
+				seed: _user$project$Art$newSeed(model)
 			});
 	}
 };
-var _user$project$Erasure$randomErasure = function (model) {
-	randomErasure:
-	while (true) {
-		var newModel = model;
-		var current = _user$project$Erasure$currentAmountErased(model);
-		var desired = _user$project$Erasure$desiredAmountErased(model);
-		var percent = model.percentRandom;
-		var words = model.clickableText;
-		if (_elm_lang$core$Native_Utils.cmp(current, desired) < 0) {
-			var _v8 = _user$project$Erasure$eraseAWord(model);
-			model = _v8;
-			continue randomErasure;
-		} else {
-			if (_elm_lang$core$Native_Utils.eq(current, desired)) {
-				return model;
-			} else {
-				var _v9 = _user$project$Erasure$bringBackAWord(model);
-				model = _v9;
-				continue randomErasure;
-			}
-		}
-	}
+var _user$project$Art$BringingBack = {ctor: 'BringingBack'};
+var _user$project$Art$Erasing = {ctor: 'Erasing'};
+var _user$project$Art$initModel = {
+	eraseableText: _user$project$Art$textToEraseableWords(_user$project$Art$theText),
+	seed: _elm_lang$core$Random$initialSeed(1),
+	status: _user$project$Art$Erasing
 };
-var _user$project$Erasure$update = F2(
-	function (msg, model) {
-		var _p12 = msg;
-		switch (_p12.ctor) {
-			case 'ToggleWord':
-				var newText = A3(_elm_community$list_extra$List_Extra$updateAt, _p12._0.position - 1, _user$project$Erasure$eraseOrBringBack, model.clickableText);
-				var _p13 = newText;
-				if (_p13.ctor === 'Just') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{clickableText: _p13._0}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					return _elm_lang$core$Native_Utils.crashCase(
-						'Erasure',
-						{
-							start: {line: 104, column: 17},
-							end: {line: 108, column: 89}
-						},
-						_p13)('You\'re trying to toggle a word that doesn\'t exist.');
-				}
-			case 'MakeTextClickable':
-				var clickableText = _user$project$Erasure$textToClickableWords(model.inputText);
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{clickableText: clickableText, textEntered: true}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'UpdateInputText':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{inputText: _p12._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'GoBackToTextEntry':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{textEntered: false}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Randomize':
-				return {
-					ctor: '_Tuple2',
-					_0: _user$project$Erasure$randomErasure(model),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'UpdatePercentRandom':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							percentRandom: A2(
-								_elm_lang$core$Result$withDefault,
-								0,
-								_elm_lang$core$String$toInt(_p12._0))
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'GetSeed':
-				if (_p12._0.ctor === 'Just') {
-					var timeSeed = _elm_lang$core$Random$initialSeed(
-						_elm_lang$core$Basics$round(
-							_elm_lang$core$Time$inSeconds(_p12._0._0)));
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{seed: timeSeed}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					return A2(
-						_elm_lang$core$Platform_Cmd_ops['!'],
-						model,
-						{ctor: '[]'});
-				}
-			default:
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					model,
-					{
-						ctor: '::',
-						_0: _user$project$Erasure$sendStringOutToFile(model.clickableText),
-						_1: {ctor: '[]'}
-					});
-		}
-	});
-var _user$project$Erasure$Model = F5(
-	function (a, b, c, d, e) {
-		return {clickableText: a, textEntered: b, inputText: c, percentRandom: d, seed: e};
-	});
-var _user$project$Erasure$FileDownload = {ctor: 'FileDownload'};
-var _user$project$Erasure$GetSeed = function (a) {
-	return {ctor: 'GetSeed', _0: a};
-};
-var _user$project$Erasure$now = A2(
-	_elm_lang$core$Task$perform,
-	function (_p15) {
-		return _user$project$Erasure$GetSeed(
-			_elm_lang$core$Maybe$Just(_p15));
-	},
-	_elm_lang$core$Time$now);
-var _user$project$Erasure$init = {ctor: '_Tuple2', _0: _user$project$Erasure$initModel, _1: _user$project$Erasure$now};
-var _user$project$Erasure$UpdatePercentRandom = function (a) {
-	return {ctor: 'UpdatePercentRandom', _0: a};
-};
-var _user$project$Erasure$percentRandomInput = A2(
-	_elm_lang$html$Html$div,
-	{ctor: '[]'},
-	{
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$input,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$type_('text'),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$size(3),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onInput(_user$project$Erasure$UpdatePercentRandom),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$style(
-								{
-									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline'},
-									_1: {
-										ctor: '::',
-										_0: {ctor: '_Tuple2', _0: 'vertical-align', _1: 'middle'},
-										_1: {
-											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'width', _1: '50px'},
-											_1: {ctor: '[]'}
-										}
-									}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				}
-			},
-			{ctor: '[]'}),
-		_1: {ctor: '[]'}
-	});
-var _user$project$Erasure$Randomize = {ctor: 'Randomize'};
-var _user$project$Erasure$GoBackToTextEntry = {ctor: 'GoBackToTextEntry'};
-var _user$project$Erasure$buttonsAndOptions = A2(
-	_elm_lang$html$Html$div,
-	{
-		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$style(
-			{
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'font-family', _1: '\'Arial\', sans-serif'},
-				_1: {
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'font-size', _1: '.75em'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'display', _1: 'block'},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'width', _1: '27%'},
-							_1: {
-								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'float', _1: 'right'},
-								_1: {
-									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'margin-right', _1: '5%'},
-									_1: {
-										ctor: '::',
-										_0: {ctor: '_Tuple2', _0: 'margin-left', _1: '5%'},
-										_1: {
-											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'border-color', _1: '#999999'},
-											_1: {
-												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'border-width', _1: '10px'},
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}),
-		_1: {ctor: '[]'}
-	},
-	{
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$button,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$GoBackToTextEntry),
-				_1: _user$project$Erasure$appButtonStyle
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text('Enter different text'),
-				_1: {ctor: '[]'}
-			}),
-		_1: {
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Erase '),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Erasure$percentRandomInput,
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('% of these words'),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$button,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$Randomize),
-								_1: _user$project$Erasure$appButtonStyle
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Go!'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$FileDownload),
-									_1: _user$project$Erasure$appButtonStyle
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Download File!'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				}
-			}
-		}
-	});
-var _user$project$Erasure$UpdateInputText = function (a) {
-	return {ctor: 'UpdateInputText', _0: a};
-};
-var _user$project$Erasure$MakeTextClickable = function (a) {
-	return {ctor: 'MakeTextClickable', _0: a};
-};
-var _user$project$Erasure$enterYourTextScreen = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		_user$project$Erasure$myStyles,
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$br,
-				{ctor: '[]'},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$br,
-					{ctor: '[]'},
-					{ctor: '[]'}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$textarea,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$placeholder('Enter your text here'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_user$project$Erasure$UpdateInputText),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$style(
-										{
-											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'width', _1: '800px'},
-											_1: {
-												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'height', _1: '200px'},
-												_1: {ctor: '[]'}
-											}
-										}),
-									_1: {ctor: '[]'}
-								}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$br,
-							{ctor: '[]'},
-							{ctor: '[]'}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Erasure$MakeTextClickable(model.inputText)),
-										_1: _user$project$Erasure$appButtonStyle
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('Let\'s erase stuff!'),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}
-			}
-		});
-};
-var _user$project$Erasure$ToggleWord = function (a) {
-	return {ctor: 'ToggleWord', _0: a};
-};
-var _user$project$Erasure$displayClickableWord = function (word) {
+var _user$project$Art$ToggleWord = {ctor: 'ToggleWord'};
+var _user$project$Art$displayEraseableWord = function (word) {
 	return A2(
 		_elm_lang$html$Html$span,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Events$onClick(
-				_user$project$Erasure$ToggleWord(word)),
+			_0: _elm_lang$html$Html_Events$onClick(_user$project$Art$ToggleWord),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$style(
@@ -11043,7 +10637,7 @@ var _user$project$Erasure$displayClickableWord = function (word) {
 						_0: {
 							ctor: '_Tuple2',
 							_0: 'color',
-							_1: _user$project$Erasure$wordColor(word)
+							_1: _user$project$Art$wordColor(word)
 						},
 						_1: {ctor: '[]'}
 					}),
@@ -11057,71 +10651,45 @@ var _user$project$Erasure$displayClickableWord = function (word) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Erasure$allTextDisplayed = function (model) {
+var _user$project$Art$allTextDisplayed = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
+		_user$project$Art$myStyles,
+		A2(_elm_lang$core$List$map, _user$project$Art$displayEraseableWord, model.eraseableText));
+};
+var _user$project$Art$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$style(
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'width', _1: '55%'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'margin-left', _1: '8%'},
-							_1: {
-								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'float', _1: 'left'},
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}),
+			_0: _user$project$Art$allTextDisplayed(model),
 			_1: {ctor: '[]'}
-		},
-		A2(_elm_lang$core$List$map, _user$project$Erasure$displayClickableWord, model.clickableText));
+		});
 };
-var _user$project$Erasure$view = function (model) {
-	var _p16 = model.textEntered;
-	if (_p16 === false) {
-		return _user$project$Erasure$enterYourTextScreen(model);
-	} else {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: _user$project$Erasure$allTextDisplayed(model),
-				_1: {
-					ctor: '::',
-					_0: _user$project$Erasure$buttonsAndOptions,
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_elm_lang$core$Basics$toString(
-								_elm_lang$core$List$length(
-									A2(_elm_lang$core$List$filter, _user$project$Erasure$isNotErased, model.clickableText)))),
-						_1: {ctor: '[]'}
-					}
-				}
-			});
-	}
+var _user$project$Art$GetSeed = function (a) {
+	return {ctor: 'GetSeed', _0: a};
 };
-var _user$project$Erasure$main = _elm_lang$html$Html$program(
+var _user$project$Art$now = A2(
+	_elm_lang$core$Task$perform,
+	function (_p13) {
+		return _user$project$Art$GetSeed(
+			_elm_lang$core$Maybe$Just(_p13));
+	},
+	_elm_lang$core$Time$now);
+var _user$project$Art$init = {ctor: '_Tuple2', _0: _user$project$Art$initModel, _1: _user$project$Art$now};
+var _user$project$Art$main = _elm_lang$html$Html$program(
 	{
-		view: _user$project$Erasure$view,
-		init: _user$project$Erasure$init,
-		update: _user$project$Erasure$update,
+		view: _user$project$Art$view,
+		init: _user$project$Art$init,
+		update: _user$project$Art$update,
 		subscriptions: _elm_lang$core$Basics$always(_elm_lang$core$Platform_Sub$none)
 	})();
 
 var Elm = {};
-Elm['Erasure'] = Elm['Erasure'] || {};
-if (typeof _user$project$Erasure$main !== 'undefined') {
-    _user$project$Erasure$main(Elm['Erasure'], 'Erasure', undefined);
+Elm['Art'] = Elm['Art'] || {};
+if (typeof _user$project$Art$main !== 'undefined') {
+    _user$project$Art$main(Elm['Art'], 'Art', undefined);
 }
 
 if (typeof define === "function" && define['amd'])

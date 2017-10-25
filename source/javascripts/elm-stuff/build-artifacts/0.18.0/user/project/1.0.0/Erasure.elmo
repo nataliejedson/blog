@@ -429,15 +429,11 @@ var _user$project$Erasure$percentRandomInput = A2(
 									_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline'},
 									_1: {
 										ctor: '::',
-										_0: {ctor: '_Tuple2', _0: 'float', _1: 'left'},
+										_0: {ctor: '_Tuple2', _0: 'vertical-align', _1: 'middle'},
 										_1: {
 											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'vertical-align', _1: 'middle'},
-											_1: {
-												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'width', _1: '50px'},
-												_1: {ctor: '[]'}
-											}
+											_0: {ctor: '_Tuple2', _0: 'width', _1: '50px'},
+											_1: {ctor: '[]'}
 										}
 									}
 								}),
@@ -451,6 +447,108 @@ var _user$project$Erasure$percentRandomInput = A2(
 	});
 var _user$project$Erasure$Randomize = {ctor: 'Randomize'};
 var _user$project$Erasure$GoBackToTextEntry = {ctor: 'GoBackToTextEntry'};
+var _user$project$Erasure$buttonsAndOptions = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$style(
+			{
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'font-family', _1: '\'Arial\', sans-serif'},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'font-size', _1: '.75em'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'display', _1: 'block'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'width', _1: '27%'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'float', _1: 'right'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'margin-right', _1: '5%'},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'margin-left', _1: '5%'},
+										_1: {
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'border-color', _1: '#999999'},
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'border-width', _1: '10px'},
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$button,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$GoBackToTextEntry),
+				_1: _user$project$Erasure$appButtonStyle
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Enter different text'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Erase '),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Erasure$percentRandomInput,
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('% of these words'),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$Randomize),
+								_1: _user$project$Erasure$appButtonStyle
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Go!'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$FileDownload),
+									_1: _user$project$Erasure$appButtonStyle
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Download File!'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		}
+	});
 var _user$project$Erasure$UpdateInputText = function (a) {
 	return {ctor: 'UpdateInputText', _0: a};
 };
@@ -567,6 +665,33 @@ var _user$project$Erasure$displayClickableWord = function (word) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$Erasure$allTextDisplayed = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'width', _1: '55%'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'margin-left', _1: '8%'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'float', _1: 'left'},
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		},
+		A2(_elm_lang$core$List$map, _user$project$Erasure$displayClickableWord, model.clickableText));
+};
 var _user$project$Erasure$view = function (model) {
 	var _p16 = model.textEntered;
 	if (_p16 === false) {
@@ -574,136 +699,20 @@ var _user$project$Erasure$view = function (model) {
 	} else {
 		return A2(
 			_elm_lang$html$Html$div,
-			_user$project$Erasure$myStyles,
+			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$style(
-							{
-								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'width', _1: '75%'},
-								_1: {
-									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline-block'},
-									_1: {
-										ctor: '::',
-										_0: {ctor: '_Tuple2', _0: 'margin', _1: 'auto'},
-										_1: {
-											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'margin-top', _1: '2em'},
-											_1: {
-												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'margin-bottom', _1: '1em'},
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								}
-							}),
-						_1: {ctor: '[]'}
-					},
-					A2(_elm_lang$core$List$map, _user$project$Erasure$displayClickableWord, model.clickableText)),
+				_0: _user$project$Erasure$allTextDisplayed(model),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$br,
-						{ctor: '[]'},
-						{ctor: '[]'}),
+					_0: _user$project$Erasure$buttonsAndOptions,
 					_1: {
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$button,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$GoBackToTextEntry),
-								_1: _user$project$Erasure$appButtonStyle
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Enter different text'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$br,
-								{ctor: '[]'},
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$style(
-											{
-												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'font-family', _1: '\'Arial\', sans-serif'},
-												_1: {
-													ctor: '::',
-													_0: {ctor: '_Tuple2', _0: 'font-size', _1: '.75em'},
-													_1: {
-														ctor: '::',
-														_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline'},
-														_1: {
-															ctor: '::',
-															_0: {ctor: '_Tuple2', _0: 'width', _1: '150px'},
-															_1: {ctor: '[]'}
-														}
-													}
-												}
-											}),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('Erase '),
-										_1: {
-											ctor: '::',
-											_0: _user$project$Erasure$percentRandomInput,
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html$text('% of these words'),
-												_1: {ctor: '[]'}
-											}
-										}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$button,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$Randomize),
-											_1: _user$project$Erasure$appButtonStyle
-										},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Go!'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$button,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Erasure$FileDownload),
-												_1: _user$project$Erasure$appButtonStyle
-											},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text('Download File!'),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						}
+						_0: _elm_lang$html$Html$text(
+							_elm_lang$core$Basics$toString(
+								_elm_lang$core$List$length(
+									A2(_elm_lang$core$List$filter, _user$project$Erasure$isNotErased, model.clickableText)))),
+						_1: {ctor: '[]'}
 					}
 				}
 			});
