@@ -23,16 +23,23 @@
 	var app = Elm.Erasure.embed(node); 
 	app.ports.exportInfo.subscribe(function(genericData){
 		if (genericData.tag == "textFileDownload") {
-			exportFile(genericData.data);
+			exportFile(genericData.data, "txt");
+		} else if (genericData.tag == "projectFileDownload") {
+			exportFile(genericData.data, "json");
 		}
 
 	});
-	function exportFile(words) { 
+	function exportFile(words, filetype) { 
 		var encodedUri = 'data:text/csv;charset=UTF-8,' + encodeURI(words); 
 		console.log(encodedUri)
 		var link = document.createElement("a"); 
 		link.setAttribute("href", encodedUri); 
-		link.setAttribute("download", "new_poem.txt"); 
+		if (filetype == "txt") {
+			link.setAttribute("download", "new_poem.txt"); 
+		} else if (filetype == "json") {
+			link.setAttribute("download", "project_file"); 
+		}
+
 		document.body.appendChild(link); 
 
 		link.click(); 

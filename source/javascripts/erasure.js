@@ -10576,7 +10576,11 @@ var _user$project$Erasure$sendInfoOutside = F2(
 				});
 		} else {
 			return _user$project$Erasure$exportInfo(
-				{tag: 'projectFileDownload', data: ''});
+				{
+					tag: 'projectFileDownload',
+					data: _elm_lang$core$Basics$toString(
+						_user$project$Erasure$listClickableWordJSON(model.clickableText))
+				});
 		}
 	});
 var _user$project$Erasure$ClickableWord = F3(
