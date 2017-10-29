@@ -11129,10 +11129,26 @@ var _user$project$Erasure$buttonsAndOptions = A2(
 								},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('Download File!'),
+									_0: _elm_lang$html$Html$text('Download as Text File!'),
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Erasure$Outside(_user$project$Erasure$JSONDownload)),
+										_1: _user$project$Erasure$appButtonStyle
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Download as Project File!'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}

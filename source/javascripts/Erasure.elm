@@ -363,7 +363,8 @@ buttonsAndOptions =
         , percentRandomInput
         , Html.text "% of these words"
         , Html.button ( onClick (Randomize) :: appButtonStyle) [Html.text "Go!"]
-        , Html.button ( onClick (Outside FileDownload) :: appButtonStyle) [Html.text "Download File!"]
+        , Html.button ( onClick (Outside FileDownload) :: appButtonStyle) [Html.text "Download as Text File!"]
+        , Html.button ( onClick (Outside JSONDownload) :: appButtonStyle) [Html.text "Download as Project File!"]
         ]
 
 allTextDisplayed: Model -> Html Msg
