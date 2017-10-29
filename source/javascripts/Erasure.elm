@@ -8,6 +8,8 @@ import Random exposing (..)
 import Debug exposing (crash)
 import Time exposing (..)
 import Task exposing (..)
+import Json.Encode as JE exposing (..) 
+import Json.Decode as JD exposing (..)
 
 
 -- TODO: Create button thing that checks model.percentRandom and disables if is not appropriate value 
@@ -91,7 +93,7 @@ type Msg
     | Randomize
     | UpdatePercentRandom String
     | GetSeed (Maybe Time)
-    | FileDownload
+    | Outside InfoForOutside
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -139,8 +141,8 @@ update msg model =
         GetSeed Nothing -> --This would be an error, but I am not too concerned with it... I have a fallback seed
             model ! [ ]
 
-        FileDownload -> 
-            model ! [sendStringOutToFile model.clickableText]
+        Outside infoForOutside -> 
+            model ! [sendInfoOutside model infoForOutside] 
 
 desiredAmountErased: Model -> Int 
 desiredAmountErased model = ((totalNumberOfWords model) * model.percentRandom)  // 100 -- Note use of integer division here 
@@ -269,7 +271,18 @@ isNotErased word =
 
 -- PORTS 
 
-port makeFile: String -> Cmd msg
+
+
+type InfoForOutside 
+    = FileDownload 
+    | JSONDownload 
+
+
+port exportInfo: GenericOutsideData -> Cmd msg
+
+type alias GenericOutsideData =
+    { tag : String, data : String }
+
 
 makeStringFromText: List ClickableWord -> String
 makeStringFromText words = 
@@ -282,9 +295,14 @@ makeStringFromText words =
     in 
         String.join " " remainingText
 
-sendStringOutToFile: List ClickableWord -> Cmd msg
-sendStringOutToFile words = 
-    makeFile (makeStringFromText words)
+sendInfoOutside: Model -> InfoForOutside -> Cmd msg 
+sendInfoOutside model info = 
+    case info of 
+        FileDownload -> 
+            exportInfo {tag= "textFileDownload", data=  (makeStringFromText model.clickableText) }
+        JSONDownload -> 
+            exportInfo {tag= "projectFileDownload", data = "" }
+
 
 ---- VIEW ----
 
@@ -331,7 +349,7 @@ buttonsAndOptions =
         , percentRandomInput
         , Html.text "% of these words"
         , Html.button ( onClick (Randomize) :: appButtonStyle) [Html.text "Go!"]
-        , Html.button ( onClick (FileDownload) :: appButtonStyle) [Html.text "Download File!"]
+        , Html.button ( onClick (Outside FileDownload) :: appButtonStyle) [Html.text "Download File!"]
         ]
 
 allTextDisplayed: Model -> Html Msg
