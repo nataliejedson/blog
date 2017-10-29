@@ -10464,6 +10464,38 @@ var _user$project$Erasure$myStyles = _elm_lang$core$List$singleton(
 				}
 			}
 		}));
+var _user$project$Erasure$clickableWordJSON = function (word) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'text',
+				_1: _elm_lang$core$Json_Encode$string(word.text)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'erased',
+					_1: _elm_lang$core$Json_Encode$bool(word.erased)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'position',
+						_1: _elm_lang$core$Json_Encode$int(word.position)
+					},
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Erasure$listClickableWordJSON = function (words) {
+	return _elm_lang$core$Json_Encode$list(
+		A2(_elm_lang$core$List$map, _user$project$Erasure$clickableWordJSON, words));
+};
 var _user$project$Erasure$isNotErased = function (word) {
 	return _elm_lang$core$Native_Utils.eq(word.erased, false);
 };

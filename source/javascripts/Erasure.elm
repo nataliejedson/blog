@@ -269,7 +269,7 @@ isNotErased: ClickableWord -> Bool
 isNotErased word = 
     word.erased == False
 
--- PORTS 
+--- PORTS --- 
 
 
 
@@ -301,8 +301,22 @@ sendInfoOutside model info =
         FileDownload -> 
             exportInfo {tag= "textFileDownload", data=  (makeStringFromText model.clickableText) }
         JSONDownload -> 
-            exportInfo {tag= "projectFileDownload", data = "" }
+            exportInfo {tag= "projectFileDownload", data = (toString <| listClickableWordJSON model.clickableText) }
 
+--- JSON SHIT ---
+
+clickableWordJSON: ClickableWord -> JE.Value 
+clickableWordJSON word = 
+    JE.object 
+        [ ("text", JE.string word.text )
+        , ("erased", JE.bool word.erased)
+        , ("position", JE.int word.position)
+        ]
+
+
+listClickableWordJSON: List ClickableWord -> JE.Value
+listClickableWordJSON words = 
+    JE.list (List.map clickableWordJSON words)
 
 ---- VIEW ----
 
