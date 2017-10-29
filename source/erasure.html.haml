@@ -1,0 +1,44 @@
+%header.main-header{cover}
+	%nav.main-nav.overlay.clearfix
+		- if blog_settings.logo.present?
+			%a.blog-logo{href: home_path}
+				= image_tag blog_settings.logo, alt: blog_settings.name
+		- if blog_settings.navigation
+			%a.menu-button.icon-menu{href: '#'}
+				%span.word Menu
+	.vertical
+		.main-header-content.inner
+			%h1.page-title= "ERASURE"
+			%h2.page-description= "a tool to help with erasure poetry"
+
+
+
+<div id="erasure" align="center"> 
+	
+%script{:type => "text/javascript",
+				:src  => "../../javascripts/erasure.js"}
+
+:javascript	
+	var node = document.getElementById("erasure");
+	var app = Elm.Erasure.embed(node); 
+	app.ports.exportInfo.subscribe(function(genericData){
+		if (genericData.tag == "textFileDownload") {
+			exportFile(genericData.data);
+		}
+
+	});
+	function exportFile(words) { 
+		var encodedUri = 'data:text/csv;charset=UTF-8,' + encodeURI(words); 
+		console.log(encodedUri)
+		var link = document.createElement("a"); 
+		link.setAttribute("href", encodedUri); 
+		link.setAttribute("download", "new_poem.txt"); 
+		document.body.appendChild(link); 
+
+		link.click(); 
+
+	};
+
+	
+
+</div> 
