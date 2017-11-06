@@ -93,7 +93,9 @@ type Msg
     | Randomize
     | UpdatePercentRandom String
     | GetSeed (Maybe Time)
-    | Outside InfoForOutside
+    | Inside InfoForOutside
+    | Outside InfoForElm
+    | LogErr String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -141,8 +143,17 @@ update msg model =
         GetSeed Nothing -> --This would be an error, but I am not too concerned with it... I have a fallback seed
             model ! [ ]
 
-        Outside infoForOutside -> 
+        Inside infoForOutside -> 
             model ! [sendInfoOutside model infoForOutside] 
+
+        Outside infoForElm -> 
+            model ! [ ]
+
+        LogErr err -> 
+            model ! [ sendInfoOutside model (LogError err) ]
+
+
+
 
 desiredAmountErased: Model -> Int 
 desiredAmountErased model = ((totalNumberOfWords model) * model.percentRandom)  // 100 -- Note use of integer division here 
@@ -276,9 +287,15 @@ isNotErased word =
 type InfoForOutside 
     = FileDownload 
     | JSONDownload 
+    | LogError String 
+
+type InfoForElm 
+    = JSONUpload (List ClickableWord)
 
 
 port exportInfo: GenericOutsideData -> Cmd msg
+
+port importInfo: (GenericOutsideData -> msg) -> Sub msg
 
 type alias GenericOutsideData =
     { tag : String, data : String }
@@ -302,6 +319,23 @@ sendInfoOutside model info =
             exportInfo {tag= "textFileDownload", data=  (makeStringFromText model.clickableText) }
         JSONDownload -> 
             exportInfo {tag= "projectFileDownload", data = (toString <| listClickableWordJSON model.clickableText) }
+        LogError err ->
+            exportInfo { tag = "LogError", data = err }
+
+getInfoFromOutside: (InfoForElm -> msg) -> (String -> msg) -> Sub msg
+getInfoFromOutside tagger onError = 
+    importInfo 
+        (\outsideInfo -> 
+            case outsideInfo.tag of 
+                "projectFileUpload" -> 
+                    case decodeString (JD.list clickableWordDecoder) outsideInfo.data of 
+                        Ok words -> 
+                            tagger <| JSONUpload words
+                        Err e -> 
+                            onError e
+                _ -> 
+                    onError <| "Unexpected info from outside: " ++ toString outsideInfo
+        )
 
 --- JSON SHIT ---
 
@@ -317,6 +351,14 @@ clickableWordJSON word =
 listClickableWordJSON: List ClickableWord -> JE.Value
 listClickableWordJSON words = 
     JE.list (List.map clickableWordJSON words)
+
+clickableWordDecoder: JD.Decoder ClickableWord
+clickableWordDecoder = 
+    JD.map3 ClickableWord
+        ( at ["text"] JD.string )
+        ( at ["erased"] JD.bool )
+        ( at ["position"] JD.int )
+
 
 ---- VIEW ----
 
@@ -363,8 +405,8 @@ buttonsAndOptions =
         , percentRandomInput
         , Html.text "% of these words"
         , Html.button ( onClick (Randomize) :: appButtonStyle) [Html.text "Go!"]
-        , Html.button ( onClick (Outside FileDownload) :: appButtonStyle) [Html.text "Download as Text File!"]
-        , Html.button ( onClick (Outside JSONDownload) :: appButtonStyle) [Html.text "Download as Project File!"]
+        , Html.button ( onClick (Inside FileDownload) :: appButtonStyle) [Html.text "Download as Text File!"]
+        , Html.button ( onClick (Inside JSONDownload) :: appButtonStyle) [Html.text "Download as Project File!"]
         ]
 
 allTextDisplayed: Model -> Html Msg
@@ -448,5 +490,5 @@ main =
         { view = view
         , init = init
         , update = update
-        , subscriptions = always Sub.none
+        , subscriptions = \model -> getInfoFromOutside Outside LogErr
         }

@@ -10568,21 +10568,39 @@ var _user$project$Erasure$exportInfo = _elm_lang$core$Native_Platform.outgoingPo
 var _user$project$Erasure$sendInfoOutside = F2(
 	function (model, info) {
 		var _p1 = info;
-		if (_p1.ctor === 'FileDownload') {
-			return _user$project$Erasure$exportInfo(
-				{
-					tag: 'textFileDownload',
-					data: _user$project$Erasure$makeStringFromText(model.clickableText)
-				});
-		} else {
-			return _user$project$Erasure$exportInfo(
-				{
-					tag: 'projectFileDownload',
-					data: _elm_lang$core$Basics$toString(
-						_user$project$Erasure$listClickableWordJSON(model.clickableText))
-				});
+		switch (_p1.ctor) {
+			case 'FileDownload':
+				return _user$project$Erasure$exportInfo(
+					{
+						tag: 'textFileDownload',
+						data: _user$project$Erasure$makeStringFromText(model.clickableText)
+					});
+			case 'JSONDownload':
+				return _user$project$Erasure$exportInfo(
+					{
+						tag: 'projectFileDownload',
+						data: _elm_lang$core$Basics$toString(
+							_user$project$Erasure$listClickableWordJSON(model.clickableText))
+					});
+			default:
+				return _user$project$Erasure$exportInfo(
+					{tag: 'LogError', data: _p1._0});
 		}
 	});
+var _user$project$Erasure$importInfo = _elm_lang$core$Native_Platform.incomingPort(
+	'importInfo',
+	A2(
+		_elm_lang$core$Json_Decode$andThen,
+		function (tag) {
+			return A2(
+				_elm_lang$core$Json_Decode$andThen,
+				function (data) {
+					return _elm_lang$core$Json_Decode$succeed(
+						{tag: tag, data: data});
+				},
+				A2(_elm_lang$core$Json_Decode$field, 'data', _elm_lang$core$Json_Decode$string));
+		},
+		A2(_elm_lang$core$Json_Decode$field, 'tag', _elm_lang$core$Json_Decode$string)));
 var _user$project$Erasure$ClickableWord = F3(
 	function (a, b, c) {
 		return {text: a, erased: b, position: c};
@@ -10630,8 +10648,8 @@ var _user$project$Erasure$eraseAtIndex = F2(
 			return _elm_lang$core$Native_Utils.crashCase(
 				'Erasure',
 				{
-					start: {line: 237, column: 9},
-					end: {line: 245, column: 53}
+					start: {line: 248, column: 9},
+					end: {line: 256, column: 53}
 				},
 				_p3)('No word at that index.');
 		}
@@ -10677,8 +10695,8 @@ var _user$project$Erasure$bringBackAtIndex = F2(
 			return _elm_lang$core$Native_Utils.crashCase(
 				'Erasure',
 				{
-					start: {line: 253, column: 9},
-					end: {line: 261, column: 53}
+					start: {line: 264, column: 9},
+					end: {line: 272, column: 53}
 				},
 				_p8)('No word at that index.');
 		}
@@ -10727,103 +10745,33 @@ var _user$project$Erasure$randomErasure = function (model) {
 		}
 	}
 };
-var _user$project$Erasure$update = F2(
-	function (msg, model) {
-		var _p13 = msg;
-		switch (_p13.ctor) {
-			case 'ToggleWord':
-				var newText = A3(_elm_community$list_extra$List_Extra$updateAt, _p13._0.position - 1, _user$project$Erasure$eraseOrBringBack, model.clickableText);
-				var _p14 = newText;
-				if (_p14.ctor === 'Just') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{clickableText: _p14._0}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					return _elm_lang$core$Native_Utils.crashCase(
-						'Erasure',
-						{
-							start: {line: 106, column: 17},
-							end: {line: 110, column: 89}
-						},
-						_p14)('You\'re trying to toggle a word that doesn\'t exist.');
-				}
-			case 'MakeTextClickable':
-				var clickableText = _user$project$Erasure$textToClickableWords(model.inputText);
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{clickableText: clickableText, textEntered: true}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'UpdateInputText':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{inputText: _p13._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'GoBackToTextEntry':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{textEntered: false}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Randomize':
-				return {
-					ctor: '_Tuple2',
-					_0: _user$project$Erasure$randomErasure(model),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'UpdatePercentRandom':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							percentRandom: A2(
-								_elm_lang$core$Result$withDefault,
-								0,
-								_elm_lang$core$String$toInt(_p13._0))
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'GetSeed':
-				if (_p13._0.ctor === 'Just') {
-					var timeSeed = _elm_lang$core$Random$initialSeed(
-						_elm_lang$core$Basics$round(
-							_elm_lang$core$Time$inSeconds(_p13._0._0)));
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{seed: timeSeed}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					return A2(
-						_elm_lang$core$Platform_Cmd_ops['!'],
-						model,
-						{ctor: '[]'});
-				}
-			default:
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					model,
-					{
-						ctor: '::',
-						_0: A2(_user$project$Erasure$sendInfoOutside, model, _p13._0),
-						_1: {ctor: '[]'}
-					});
-		}
-	});
+var _user$project$Erasure$clickableWordDecoder = A4(
+	_elm_lang$core$Json_Decode$map3,
+	_user$project$Erasure$ClickableWord,
+	A2(
+		_elm_lang$core$Json_Decode$at,
+		{
+			ctor: '::',
+			_0: 'text',
+			_1: {ctor: '[]'}
+		},
+		_elm_lang$core$Json_Decode$string),
+	A2(
+		_elm_lang$core$Json_Decode$at,
+		{
+			ctor: '::',
+			_0: 'erased',
+			_1: {ctor: '[]'}
+		},
+		_elm_lang$core$Json_Decode$bool),
+	A2(
+		_elm_lang$core$Json_Decode$at,
+		{
+			ctor: '::',
+			_0: 'position',
+			_1: {ctor: '[]'}
+		},
+		_elm_lang$core$Json_Decode$int));
 var _user$project$Erasure$Model = F5(
 	function (a, b, c, d, e) {
 		return {clickableText: a, textEntered: b, inputText: c, percentRandom: d, seed: e};
@@ -10832,17 +10780,23 @@ var _user$project$Erasure$GenericOutsideData = F2(
 	function (a, b) {
 		return {tag: a, data: b};
 	});
+var _user$project$Erasure$LogErr = function (a) {
+	return {ctor: 'LogErr', _0: a};
+};
 var _user$project$Erasure$Outside = function (a) {
 	return {ctor: 'Outside', _0: a};
+};
+var _user$project$Erasure$Inside = function (a) {
+	return {ctor: 'Inside', _0: a};
 };
 var _user$project$Erasure$GetSeed = function (a) {
 	return {ctor: 'GetSeed', _0: a};
 };
 var _user$project$Erasure$now = A2(
 	_elm_lang$core$Task$perform,
-	function (_p16) {
+	function (_p13) {
 		return _user$project$Erasure$GetSeed(
-			_elm_lang$core$Maybe$Just(_p16));
+			_elm_lang$core$Maybe$Just(_p13));
 	},
 	_elm_lang$core$Time$now);
 var _user$project$Erasure$init = {ctor: '_Tuple2', _0: _user$project$Erasure$initModel, _1: _user$project$Erasure$now};
@@ -11034,6 +10988,123 @@ var _user$project$Erasure$allTextDisplayed = function (model) {
 		},
 		A2(_elm_lang$core$List$map, _user$project$Erasure$displayClickableWord, model.clickableText));
 };
+var _user$project$Erasure$LogError = function (a) {
+	return {ctor: 'LogError', _0: a};
+};
+var _user$project$Erasure$update = F2(
+	function (msg, model) {
+		var _p14 = msg;
+		switch (_p14.ctor) {
+			case 'ToggleWord':
+				var newText = A3(_elm_community$list_extra$List_Extra$updateAt, _p14._0.position - 1, _user$project$Erasure$eraseOrBringBack, model.clickableText);
+				var _p15 = newText;
+				if (_p15.ctor === 'Just') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{clickableText: _p15._0}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return _elm_lang$core$Native_Utils.crashCase(
+						'Erasure',
+						{
+							start: {line: 108, column: 17},
+							end: {line: 112, column: 89}
+						},
+						_p15)('You\'re trying to toggle a word that doesn\'t exist.');
+				}
+			case 'MakeTextClickable':
+				var clickableText = _user$project$Erasure$textToClickableWords(model.inputText);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{clickableText: clickableText, textEntered: true}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdateInputText':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{inputText: _p14._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'GoBackToTextEntry':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{textEntered: false}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Randomize':
+				return {
+					ctor: '_Tuple2',
+					_0: _user$project$Erasure$randomErasure(model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdatePercentRandom':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							percentRandom: A2(
+								_elm_lang$core$Result$withDefault,
+								0,
+								_elm_lang$core$String$toInt(_p14._0))
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'GetSeed':
+				if (_p14._0.ctor === 'Just') {
+					var timeSeed = _elm_lang$core$Random$initialSeed(
+						_elm_lang$core$Basics$round(
+							_elm_lang$core$Time$inSeconds(_p14._0._0)));
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{seed: timeSeed}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						model,
+						{ctor: '[]'});
+				}
+			case 'Inside':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{
+						ctor: '::',
+						_0: A2(_user$project$Erasure$sendInfoOutside, model, _p14._0),
+						_1: {ctor: '[]'}
+					});
+			case 'Outside':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{ctor: '[]'});
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{
+						ctor: '::',
+						_0: A2(
+							_user$project$Erasure$sendInfoOutside,
+							model,
+							_user$project$Erasure$LogError(_p14._0)),
+						_1: {ctor: '[]'}
+					});
+		}
+	});
 var _user$project$Erasure$JSONDownload = {ctor: 'JSONDownload'};
 var _user$project$Erasure$FileDownload = {ctor: 'FileDownload'};
 var _user$project$Erasure$buttonsAndOptions = A2(
@@ -11124,7 +11195,7 @@ var _user$project$Erasure$buttonsAndOptions = A2(
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html_Events$onClick(
-										_user$project$Erasure$Outside(_user$project$Erasure$FileDownload)),
+										_user$project$Erasure$Inside(_user$project$Erasure$FileDownload)),
 									_1: _user$project$Erasure$appButtonStyle
 								},
 								{
@@ -11139,7 +11210,7 @@ var _user$project$Erasure$buttonsAndOptions = A2(
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Erasure$Outside(_user$project$Erasure$JSONDownload)),
+											_user$project$Erasure$Inside(_user$project$Erasure$JSONDownload)),
 										_1: _user$project$Erasure$appButtonStyle
 									},
 									{
@@ -11181,12 +11252,42 @@ var _user$project$Erasure$view = function (model) {
 			});
 	}
 };
+var _user$project$Erasure$JSONUpload = function (a) {
+	return {ctor: 'JSONUpload', _0: a};
+};
+var _user$project$Erasure$getInfoFromOutside = F2(
+	function (tagger, onError) {
+		return _user$project$Erasure$importInfo(
+			function (outsideInfo) {
+				var _p18 = outsideInfo.tag;
+				if (_p18 === 'projectFileUpload') {
+					var _p19 = A2(
+						_elm_lang$core$Json_Decode$decodeString,
+						_elm_lang$core$Json_Decode$list(_user$project$Erasure$clickableWordDecoder),
+						outsideInfo.data);
+					if (_p19.ctor === 'Ok') {
+						return tagger(
+							_user$project$Erasure$JSONUpload(_p19._0));
+					} else {
+						return onError(_p19._0);
+					}
+				} else {
+					return onError(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'Unexpected info from outside: ',
+							_elm_lang$core$Basics$toString(outsideInfo)));
+				}
+			});
+	});
 var _user$project$Erasure$main = _elm_lang$html$Html$program(
 	{
 		view: _user$project$Erasure$view,
 		init: _user$project$Erasure$init,
 		update: _user$project$Erasure$update,
-		subscriptions: _elm_lang$core$Basics$always(_elm_lang$core$Platform_Sub$none)
+		subscriptions: function (model) {
+			return A2(_user$project$Erasure$getInfoFromOutside, _user$project$Erasure$Outside, _user$project$Erasure$LogErr);
+		}
 	})();
 
 var Elm = {};
